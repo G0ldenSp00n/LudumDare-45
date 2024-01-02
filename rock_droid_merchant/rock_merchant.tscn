@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://r0skgfc2ansk"]
+
+[ext_resource type="Texture2D" uid="uid://sqknun4tq4wq" path="res://rock_droid_merchant/move.png" id="1_ldn53"]
+[ext_resource type="Script" path="res://rock_droid_merchant/rock_merchant.gd" id="2_1b12i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l33sw"]
+size = Vector2(68, 38)
+
+[sub_resource type="Animation" id="Animation_rcib4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_h2rib"]
+resource_name = "idle"
+length = 2.35
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ffxau"]
+_data = {
+"RESET": SubResource("Animation_rcib4"),
+"idle": SubResource("Animation_h2rib")
+}
+
+[node name="rock_merchant" type="Sprite2D"]
+texture_filter = 1
+position = Vector2(0, -18)
+texture = ExtResource("1_ldn53")
+hframes = 18
+script = ExtResource("2_1b12i")
+
+[node name="RefuelArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="Colliders" type="CollisionShape2D" parent="RefuelArea"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_l33sw")
+debug_color = Color(0, 0.643137, 0.286275, 0.419608)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_ffxau")
+}

@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://deu4g4ghhmjrr"]
+
+[ext_resource type="Texture2D" uid="uid://0e65iwgep43m" path="res://merchant/idle.png" id="1_nxxxh"]
+[ext_resource type="Script" path="res://merchant/merchant.gd" id="2_vc70p"]
+
+[sub_resource type="Animation" id="Animation_2ypnr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_2v21h"]
+resource_name = "idle"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5sy62"]
+_data = {
+"RESET": SubResource("Animation_2ypnr"),
+"idle": SubResource("Animation_2v21h")
+}
+
+[node name="merchant" type="Sprite2D"]
+texture_filter = 1
+position = Vector2(1, -16)
+texture = ExtResource("1_nxxxh")
+hframes = 4
+script = ExtResource("2_vc70p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_5sy62")
+}
+speed_scale = 1.4
