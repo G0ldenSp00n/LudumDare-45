@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://rock_droid_merchant/rock_merchant.gd" id="2_1b12i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l33sw"]
-size = Vector2(68, 38)
+size = Vector2(88, 39)
 
 [sub_resource type="Animation" id="Animation_rcib4"]
 length = 0.001
