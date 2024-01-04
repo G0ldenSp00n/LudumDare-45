@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="45 - Start With Nothing"
+run/main_scene="res://sci_planet.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://player/icon.svg"
+
+[dotnet]
+
+project/assembly_name="45 - Start With Nothing"
 
 [input]
 

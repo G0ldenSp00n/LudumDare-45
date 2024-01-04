@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 const MINING_LAYER = 2;
 
-@export var SPEED = 300.0
+@export var SPEED = 180.0
 @export var AIR_SPEED = 150.0
 @export var MAX_FUEL = 200.0
 var FUEL = 0.0
@@ -35,11 +35,17 @@ func _physics_process(delta):
 	
 	if is_on_floor():
 		if Input.is_action_pressed("move_down"):
-			tileMap.erase_cell(MINING_LAYER, tileMap.local_to_map(global_position) + Vector2i(0, 1)) 
+			tileMap.erase_cell(MINING_LAYER, tileMap.local_to_map(global_position) + Vector2i(0, 1))
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis("move_left", "move_right")
+	
+	if is_on_wall():
+		if Input.is_action_pressed("move_left"):
+			tileMap.erase_cell(MINING_LAYER, tileMap.local_to_map(global_position) + Vector2i(-1, 0))
+		if Input.is_action_pressed("move_right"):
+			tileMap.erase_cell(MINING_LAYER, tileMap.local_to_map(global_position) + Vector2i(1, 0))
 	if direction and is_on_floor():
 		velocity.x = direction * SPEED
 	elif direction:
