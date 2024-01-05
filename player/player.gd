@@ -39,8 +39,27 @@ func mine_cell(action, offsetPos, delta):
 	if tileHealth[tileMapPos.y][tileMapPos.x] <= 0:
 		tileMap.erase_cell(MINING_LAYER, tileMapPos)
 
+func draw_break():
+	for y in tileHealth.size():
+		for x in tileHealth[y].size():
+			var tileMapData = tileMap.get_cell_tile_data(MINING_LAYER, Vector2i(x, y))
+			if tileMapData:
+				if tileHealth[y][x] < tileMapData.get_custom_data_by_layer_id(0):
+					print("less")
+					tileMap.set_cell(MINING_LAYER + 1, Vector2i(x, y), 1, Vector2i(0, 0))
+				if tileHealth[y][x] < tileMapData.get_custom_data_by_layer_id(0) / 2:
+					print("half")
+					tileMap.set_cell(MINING_LAYER + 1, Vector2i(x, y), 1, Vector2i(1, 0))
+				if tileHealth[y][x] < tileMapData.get_custom_data_by_layer_id(0) / 3:
+					print("half")
+					tileMap.set_cell(MINING_LAYER + 1, Vector2i(x, y), 1, Vector2i(2, 0))
+			else:
+				print("erase")
+				tileMap.erase_cell(MINING_LAYER + 1, Vector2i(x, y))
+
 const FUEL_LABEL_TEXT = " Fuel - %d"
 func _physics_process(delta):
+	draw_break()
 	FuelLabel.text = FUEL_LABEL_TEXT % FUEL;
 	# Add the gravity.
 	if not is_on_floor():
@@ -52,10 +71,6 @@ func _physics_process(delta):
 		if velocity.y < FLY_VELOCITY:
 			velocity.y = FLY_VELOCITY
 		FUEL -= 1
-	
-	if is_on_floor():
-		if Input.is_action_pressed("move_down"):
-			mine_cell("move_down", Vector2i(0, 1), delta)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -64,8 +79,11 @@ func _physics_process(delta):
 	if is_on_wall() and is_on_floor():
 		if Input.is_action_pressed("move_left"):
 			mine_cell("move_left", Vector2i(-1, 0), delta)
-		if Input.is_action_pressed("move_right"):
+		elif Input.is_action_pressed("move_right"):
 			mine_cell("move_right", Vector2i(1, 0), delta)
+	elif is_on_floor():
+		if Input.is_action_pressed("move_down"):
+			mine_cell("move_down", Vector2i(0, 1), delta)
 
 	if direction and is_on_floor():
 		velocity.x = direction * SPEED
